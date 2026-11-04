@@ -243,9 +243,9 @@ section[data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
 
 .stApp [data-testid="stMain"] div[data-testid="stButton"] > button {
     width: 100% !important;
-    min-width: 100% !important;
+    min-width: 310% !important;
     max-width: 100% !important;
-    height: 45px !important;
+    height: 58px !important;
     min-height: 45px !important;
     display: flex !important;
     align-items: center !important;
