@@ -1,3 +1,4 @@
+
 import streamlit as st
 import secrets
 import string
@@ -34,9 +35,7 @@ if "analysis_result" not in st.session_state:
 
 
 # =====================================================
-# CUSTOM CSS
-# Keep CSS inside this style block only.
-# Do not put st.html() or HTML page content here.
+# CSS DESIGN
 # =====================================================
 
 st.markdown("""
@@ -44,207 +43,289 @@ st.markdown("""
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+:root {
+    --navy: #080F20;
+    --sidebar: #0D172B;
+    --card: #111E35;
+    --gold: #E6BD65;
+    --gold-light: #FFD58B;
+    --gold-dark: #F2BD65;
+    --text: #F5F2EA;
+    --muted: #A9B2C3;
+    --brown: #80603B;
+}
+
+.stApp {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+}
+
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
 }
 
-.stApp {
-    background: #080F20;
-    color: #F5F7FC;
+/* =====================================================
+   REMOVE DEPLOY BUTTON
+===================================================== */
+
+/* Streamlit Deploy button selectors */
+.stDeployButton,
+[data-testid="stDeployButton"],
+[data-testid="stAppDeployButton"],
+button[data-testid="stAppDeployButton"],
+div[data-testid="stAppDeployButton"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
-header, footer, #MainMenu {
-    visibility: hidden;
+/* Hide only the Deploy control, not the complete header */
+header[data-testid="stHeader"] {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
-.block-container {
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
-    max-width: 1250px;
+/* Keep sidebar controls visible */
+button[data-testid="stSidebarCollapseButton"],
+button[data-testid="stSidebarCollapsedControl"] {
+    visibility: visible !important;
+    display: flex !important;
+    opacity: 1 !important;
+    color: #FFD58B !important;
+    background: #111E35 !important;
+    border: 1px solid rgba(230,189,101,0.45) !important;
+    border-radius: 8px !important;
+    z-index: 999999 !important;
 }
 
-/* SIDEBAR */
+button[data-testid="stSidebarCollapseButton"] svg,
+button[data-testid="stSidebarCollapsedControl"] svg {
+    color: #FFD58B !important;
+    fill: #FFD58B !important;
+}
+
+/* Hide unnecessary elements */
+footer {
+    visibility: hidden !important;
+}
+
+#MainMenu {
+    visibility: hidden !important;
+}
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.stApp [data-testid="stMain"] {
+    background: #080F20 !important;
+}
+
+.stApp [data-testid="stMain"] .block-container {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 1500px !important;
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
 section[data-testid="stSidebar"] {
-    background: #0D172B;
-    border-right: 1px solid #24334D;
+    background: #0D172B !important;
+    border-right: 1px solid rgba(230,189,101,0.18);
 }
 
-section[data-testid="stSidebar"] * {
-    color: #E8EDF7;
+section[data-testid="stSidebar"] > div {
+    background: #0D172B !important;
 }
 
-.brand {
-    text-align: center;
-    padding: 15px 5px 25px 5px;
+section[data-testid="stSidebar"] .stMarkdown {
+    color: #F5F2EA;
 }
 
-.brand-icon {
-    font-size: 38px;
-    margin-bottom: 8px;
-}
-
-.brand-title {
-    font-size: 22px;
-    font-weight: 800;
-    color: #E7BD65 !important;
-    letter-spacing: 1px;
-}
-
-.brand-subtitle {
-    font-size: 10px;
-    color: #8C9BB5 !important;
-    letter-spacing: 3px;
-    margin-top: 5px;
+section[data-testid="stSidebar"] div[data-testid="stButton"] {
+    width: 100% !important;
 }
 
 section[data-testid="stSidebar"] div[data-testid="stButton"] > button {
-    width: 100%;
-    background: transparent !important;
-    color: #C4CDDD !important;
-    border: 1px solid transparent !important;
-    border-radius: 9px;
-    text-align: left;
-    padding: 12px 15px;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.2s;
+    width: 100% !important;
+    min-height: 48px !important;
+    border-radius: 9px !important;
+    border: 1px solid rgba(230,189,101,0.18) !important;
+    background: #111E35 !important;
+    color: #E9EAF0 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    text-align: left !important;
+    transition: 0.2s ease !important;
 }
 
 section[data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
-    background: #192943 !important;
-    border: 1px solid #D5AC54 !important;
-    color: #F0C96E !important;
+    background: rgba(230,189,101,0.15) !important;
+    border-color: #E6BD65 !important;
+    color: #FFD58B !important;
 }
 
-/* HERO */
+/* =====================================================
+   HEADINGS
+===================================================== */
+
+.main-title {
+    color: #FFD58B;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.section-title {
+    color: #FFD58B;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #A9B2C3;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
 
 .hero {
-    background: linear-gradient(120deg, #142641, #0D192D);
-    border: 1px solid #B88C3B;
+    background: linear-gradient(120deg, #142440, #101B31);
+    border: 1px solid rgba(230,189,101,0.35);
     border-radius: 18px;
     padding: 38px;
     margin-bottom: 25px;
 }
 
-.hero-label {
-    color: #E6BD65;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    margin-bottom: 14px;
-}
-
-.hero-title {
+.hero h1 {
+    color: #FFD58B;
     font-size: 36px;
     font-weight: 800;
-    color: #FFFFFF;
-    margin-bottom: 12px;
-    line-height: 1.2;
+    margin: 0 0 12px 0;
 }
 
-.hero-title span {
-    color: #E6BD65;
+.hero p {
+    color: #C5CBD6;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
 }
 
-.hero-description {
-    color: #AAB8CE;
-    font-size: 13px;
-    line-height: 1.8;
-    max-width: 650px;
-}
-
-/* SECTION HEADINGS */
-
-.section-title {
-    font-size: 21px;
-    font-weight: 700;
-    color: #F5C77B;
-    margin-top: 22px;
-    margin-bottom: 8px;
-}
-
-.section-subtitle {
-    color: #AAB8CE;
-    font-size: 12px;
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-/* OVERVIEW CARDS */
+/* =====================================================
+   OVERVIEW CARDS
+===================================================== */
 
 .overview-card {
-    background: #111E33;
-    border: 1px solid #263955;
-    border-radius: 13px;
-    padding: 20px;
-    min-height: 115px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
+    background: #111E35;
+    border: 1px solid rgba(230,189,101,0.25);
+    border-radius: 14px;
+    padding: 22px;
+    min-height: 125px;
 }
 
-.overview-label {
-    font-size: 11px;
-    color: #98A8C0;
-    margin-bottom: 12px;
-}
-
-.overview-value {
+.overview-card h3 {
+    color: #FFD58B;
     font-size: 24px;
+    margin: 0 0 8px 0;
     font-weight: 800;
-    color: #E9C36F;
 }
 
-.overview-note {
-    font-size: 10px;
-    color: #7F91AC;
-    margin-top: 6px;
+.overview-card p {
+    color: #A9B2C3;
+    font-size: 12px;
+    margin: 0;
 }
 
-/* DASHBOARD TOOL CARDS */
+/* =====================================================
+   TOOL CARDS
+===================================================== */
 
 .tool-card {
-    background: linear-gradient(135deg, #142943, #102039);
-    border: 1px solid #344B69;
+    background: #111E35;
+    border: 1px solid rgba(230,189,101,0.25);
     border-radius: 14px;
-    padding: 20px;
-    height: 145px;
-    margin-bottom: 8px;
-    box-sizing: border-box;
-}
-
-.tool-icon {
-    font-size: 24px;
+    padding: 22px;
+    min-height: 145px;
     margin-bottom: 12px;
 }
 
-.tool-title {
+.tool-card h3 {
+    color: #FFD58B;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.tool-card p {
+    color: #A9B2C3;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* =====================================================
+   RESULT AND INFORMATION CARDS
+===================================================== */
+
+.result-box {
+    background: #111E35;
+    border: 1px solid rgba(230,189,101,0.4);
+    border-radius: 12px;
+    padding: 18px;
+    margin: 12px 0;
+    color: #FFD58B;
+    overflow-wrap: anywhere;
+}
+
+.info-card {
+    background: #111E35;
+    border: 1px solid rgba(230,189,101,0.25);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 145px;
+    margin-bottom: 12px;
+}
+
+.info-card h4 {
+    color: #FFD58B;
     font-size: 15px;
     font-weight: 700;
-    color: #F5C77B;
-    margin-bottom: 8px;
+    margin: 0 0 10px 0;
 }
 
-.tool-description {
-    font-size: 11px;
-    color: #D0D9E8;
-    line-height: 1.6;
+.info-card p {
+    color: #A9B2C3;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 0;
 }
 
-/* MAIN AREA BUTTONS
-   Full-width gold buttons that match each dashboard tool card.
-   The sidebar navigation keeps its original dark styling.
-*/
+/* =====================================================
+   MAIN AREA GOLD BUTTONS
+===================================================== */
 
 .stApp [data-testid="stMain"] div[data-testid="stButton"] {
     width: 100% !important;
+    max-width: 100% !important;
     display: block !important;
 }
 
 .stApp [data-testid="stMain"] div[data-testid="stButton"] > button {
     width: 100% !important;
-    min-width: 310% !important;
+    min-width: 100% !important;
     max-width: 100% !important;
+    box-sizing: border-box !important;
     height: 58px !important;
     min-height: 45px !important;
     display: flex !important;
@@ -270,122 +351,87 @@ section[data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
 .stApp [data-testid="stMain"] div[data-testid="stButton"] > button span {
     color: #80603B !important;
     -webkit-text-fill-color: #80603B !important;
+    font-weight: 700 !important;
 }
 
 .stApp [data-testid="stMain"] div[data-testid="stButton"] > button:hover {
-    background: linear-gradient(90deg, #FFD58B, #FFE2A8) !important;
-    background-color: #FFE0A0 !important;
-    color: #5D4528 !important;
-    -webkit-text-fill-color: #5D4528 !important;
-    border: 1px solid #E9B95F !important;
-    box-shadow: 0 4px 14px rgba(242, 189, 101, 0.25) !important;
-    transform: translateY(-2px);
+    background: linear-gradient(90deg, #FFD58B, #FFE3AF) !important;
+    border-color: #FFD58B !important;
+    transform: translateY(-1px);
 }
 
-.stApp [data-testid="stMain"] div[data-testid="stButton"] > button:hover p,
-.stApp [data-testid="stMain"] div[data-testid="stButton"] > button:hover span {
-    color: #5D4528 !important;
-    -webkit-text-fill-color: #5D4528 !important;
+/* =====================================================
+   DOWNLOAD BUTTONS
+===================================================== */
+
+.stApp [data-testid="stMain"] div[data-testid="stDownloadButton"] {
+    width: 100% !important;
 }
 
-.stApp [data-testid="stMain"] div[data-testid="stButton"] > button:focus,
-.stApp [data-testid="stMain"] div[data-testid="stButton"] > button:active {
+.stApp [data-testid="stMain"] div[data-testid="stDownloadButton"] > button {
+    width: 100% !important;
+    min-height: 52px !important;
+    background: linear-gradient(90deg, #F2BD65, #FFD58B) !important;
     color: #80603B !important;
     -webkit-text-fill-color: #80603B !important;
-    border-color: #E9B95F !important;
-    box-shadow: 0 0 0 2px rgba(242, 189, 101, 0.18) !important;
+    border: 1px solid #E9B95F !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
 }
 
-/* INPUTS */
+.stApp [data-testid="stMain"] div[data-testid="stDownloadButton"] > button p,
+.stApp [data-testid="stMain"] div[data-testid="stDownloadButton"] > button span {
+    color: #80603B !important;
+    -webkit-text-fill-color: #80603B !important;
+}
+
+/* =====================================================
+   INPUT FIELDS
+===================================================== */
 
 .stTextInput input,
 .stNumberInput input,
-.stSelectbox div[data-baseweb="select"],
-.stTextArea textarea {
-    background: #111E33;
-    color: white;
-    border: 1px solid #354967;
-    border-radius: 8px;
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"] {
+    background: #111E35 !important;
+    color: #F5F2EA !important;
+    border-color: rgba(230,189,101,0.35) !important;
+    border-radius: 8px !important;
 }
 
+.stTextInput label,
+.stNumberInput label,
+.stSelectbox label,
+.stTextArea label,
+.stSlider label,
 .stCheckbox label {
-    color: #D8E0ED;
+    color: #D8DCE5 !important;
+    font-weight: 600 !important;
 }
 
-/* PAGE HEADINGS */
-
-.page-heading {
-    font-size: 28px;
-    font-weight: 800;
-    color: #E8C16B;
-    margin-bottom: 8px;
+.stCheckbox span {
+    color: #D8DCE5 !important;
 }
 
-.page-description {
-    color: #98A9C1;
-    font-size: 13px;
-    margin-bottom: 28px;
+.stSlider [data-baseweb="slider"] {
+    color: #FFD58B !important;
 }
 
-/* RESULT BOX */
-
-.result-box {
-    background: #13243A;
-    border: 1px solid #D0A64F;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.result-label {
-    color: #D8B45F;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.result-value {
-    color: #FFFFFF;
-    font-size: 18px;
-    font-weight: 700;
-    word-break: break-word;
-}
-
-/* SECURITY CENTER CARDS */
-
-.info-card {
-    background: #111E33;
-    border: 1px solid #293B58;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 14px;
-}
-
-.info-card h4 {
-    color: #E8C16B;
-    margin-bottom: 9px;
-    font-size: 15px;
-}
-
-.info-card p {
-    color: #A5B3C8;
-    font-size: 12px;
-    line-height: 1.7;
+/* DIVIDER */
+hr {
+    border-color: rgba(230,189,101,0.2) !important;
 }
 
 /* FOOTER */
-
-.footer {
+.custom-footer {
     text-align: center;
-    color: #8999B2;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    padding: 22px 0 10px 0;
-    border-top: 1px solid #263650;
-    margin-top: 28px;
+    color: #7F8A9D;
+    font-size: 11px;
+    padding: 25px 0 10px 0;
+    border-top: 1px solid rgba(230,189,101,0.15);
+    margin-top: 35px;
 }
 
 </style>
@@ -396,28 +442,13 @@ section[data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
 # HELPER FUNCTIONS
 # =====================================================
 
-def navigate(page):
-    st.session_state.page = page
+def go_to_page(page_name):
+    st.session_state.page = page_name
 
 
-def page_heading(title, description):
-    st.markdown(
-        f"""
-        <div class="page-heading">{html.escape(title)}</div>
-        <div class="page-description">{html.escape(description)}</div>
-        """,
-        unsafe_allow_html=True
-    )
+def generate_password(length, use_upper, use_lower, use_numbers,
+                      use_symbols, exclude_similar):
 
-
-def generate_password(
-    length,
-    use_upper,
-    use_lower,
-    use_numbers,
-    use_symbols,
-    exclude_similar
-):
     characters = ""
 
     if use_upper:
@@ -430,7 +461,7 @@ def generate_password(
         characters += string.digits
 
     if use_symbols:
-        characters += "!@#$%^&*()-_=+[]{}?"
+        characters += "!@#$%^&*()-_=+[]{};:,.?/"
 
     if exclude_similar:
         for char in "Il1O0o":
@@ -439,28 +470,88 @@ def generate_password(
     if not characters:
         return None
 
-    return "".join(secrets.choice(characters) for _ in range(length))
+    return "".join(
+        secrets.choice(characters) for _ in range(length)
+    )
+
+
+def generate_passphrase(number_of_words, separator, add_number):
+
+    words = [
+        "amber", "anchor", "apple", "artist", "autumn",
+        "beacon", "breeze", "candle", "castle", "cedar",
+        "cloud", "coffee", "comet", "crystal", "daisy",
+        "desert", "dream", "eagle", "earth", "ember",
+        "forest", "galaxy", "garden", "golden", "harbor",
+        "horizon", "island", "jungle", "lantern", "lemon",
+        "marble", "meadow", "moon", "mountain", "ocean",
+        "pearl", "planet", "river", "silver", "sunrise"
+    ]
+
+    selected_words = [
+        secrets.choice(words) for _ in range(number_of_words)
+    ]
+
+    phrase = separator.join(selected_words)
+
+    if add_number:
+        phrase += separator + str(secrets.randbelow(900) + 100)
+
+    return phrase
 
 
 def calculate_entropy(password):
-    pool = 0
+
+    pool_size = 0
 
     if re.search(r"[a-z]", password):
-        pool += 26
+        pool_size += 26
 
     if re.search(r"[A-Z]", password):
-        pool += 26
+        pool_size += 26
 
     if re.search(r"[0-9]", password):
-        pool += 10
+        pool_size += 10
 
     if re.search(r"[^a-zA-Z0-9]", password):
-        pool += 32
+        pool_size += 32
 
-    if pool == 0:
+    if pool_size == 0:
         return 0
 
-    return len(password) * math.log2(pool)
+    return len(password) * math.log2(pool_size)
+
+
+def analyze_password(password):
+
+    checks = {
+        "At least 12 characters": len(password) >= 12,
+        "Contains uppercase letters": bool(re.search(r"[A-Z]", password)),
+        "Contains lowercase letters": bool(re.search(r"[a-z]", password)),
+        "Contains numbers": bool(re.search(r"[0-9]", password)),
+        "Contains symbols": bool(re.search(r"[^a-zA-Z0-9]", password)),
+        "No obvious common patterns": not bool(
+            re.search(
+                r"1234|password|qwerty|abcd|1111",
+                password.lower()
+            )
+        )
+    }
+
+    entropy = calculate_entropy(password)
+
+    if entropy < 28:
+        strength = "Very Weak"
+    elif entropy < 36:
+        strength = "Weak"
+    elif entropy < 60:
+        strength = "Moderate"
+    elif entropy < 80:
+        strength = "Strong"
+    else:
+        strength = "Very Strong"
+
+    return checks, entropy, strength
 
 
 # =====================================================
@@ -470,44 +561,53 @@ def calculate_entropy(password):
 with st.sidebar:
 
     st.markdown("""
-    <div class="brand">
-        <div class="brand-icon">🔐</div>
-        <div class="brand-title">SECUREPASS</div>
-        <div class="brand-subtitle">ELITE SECURITY</div>
+    <div style="padding: 12px 5px 25px 5px;">
+        <div style="font-size: 30px;">🔐</div>
+        <div style="color:#FFD58B;font-size:20px;font-weight:800;letter-spacing:1px;">
+            SECUREPASS
+        </div>
+        <div style="color:#A9B2C3;font-size:10px;letter-spacing:3px;">
+            ELITE SECURITY SUITE
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown(
+        "<p style='color:#7F8A9D;font-size:10px;font-weight:700;letter-spacing:2px;'>MAIN MENU</p>",
+        unsafe_allow_html=True
+    )
 
-    if st.button("🏠  Dashboard", key="nav_dashboard"):
-        navigate("Dashboard")
-        st.rerun()
+    navigation = [
+        ("🏠", "Dashboard"),
+        ("🔑", "Password Generator"),
+        ("💬", "Passphrase Studio"),
+        ("🛡️", "Password Analyzer"),
+        ("⚙️", "Security Center")
+    ]
 
-    if st.button("🔑  Password Generator", key="nav_generator"):
-        navigate("Password Generator")
-        st.rerun()
+    for icon, page_name in navigation:
 
-    if st.button("📝  Passphrase Studio", key="nav_passphrase"):
-        navigate("Passphrase Studio")
-        st.rerun()
-
-    if st.button("🛡️  Password Analyzer", key="nav_analyzer"):
-        navigate("Password Analyzer")
-        st.rerun()
-
-    if st.button("⚙️  Security Center", key="nav_security"):
-        navigate("Security Center")
-        st.rerun()
+        if st.button(
+            f"{icon}   {page_name}",
+            key=f"nav_{page_name}",
+            use_container_width=True
+        ):
+            go_to_page(page_name)
+            st.rerun()
 
     st.markdown("---")
 
     st.markdown("""
-    <div style="text-align:center; padding:15px 5px;">
-        <div style="color:#D9B45E;font-size:12px;font-weight:700;">
-            YOUR SECURITY MATTERS
+    <div style="background:#111E35;border:1px solid rgba(230,189,101,0.2);
+                border-radius:12px;padding:15px;">
+        <div style="color:#FFD58B;font-size:12px;font-weight:700;">
+            SYSTEM OPERATIONAL
         </div>
-        <div style="color:#8292AA;font-size:10px;margin-top:8px;">
-            Protect your digital identity.
+        <div style="color:#A9B2C3;font-size:11px;margin-top:6px;">
+            Your security workspace is ready.
+        </div>
+        <div style="color:#5ED6A0;font-size:11px;margin-top:12px;">
+            ● All systems active
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -519,148 +619,143 @@ with st.sidebar:
 
 if st.session_state.page == "Dashboard":
 
-    # HERO SECTION
-    # st.html() renders this as HTML. It is deliberately placed
-    # here in the Dashboard section, NOT inside the CSS block.
-
-    st.html("""
+    st.markdown("""
     <div class="hero">
-        <div class="hero-label">WELCOME TO SECUREPASS ELITE</div>
-
-        <div class="hero-title">
-            Your Security.<br>
-            <span>Your Control.</span>
-        </div>
-
-        <div class="hero-description">
-            Take control of your digital security with powerful
-            password generation, passphrase creation and
-            password analysis tools.
-        </div>
+        <h1>Your Security. Your Control.</h1>
+        <p>
+            Welcome to SECUREPASS ELITE — your personal password
+            security workspace. Create stronger passwords, build
+            memorable passphrases and understand password security
+            with simple tools.
+        </p>
     </div>
-    """)
-
-    # SECURITY OVERVIEW
+    """, unsafe_allow_html=True)
 
     st.markdown(
-        '<div class="section-title">Security Overview</div>',
+        '<div class="section-title">OVERVIEW</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<p class="subtitle">Everything you need to manage password security.</p>',
         unsafe_allow_html=True
     )
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.html("""
+        st.markdown("""
         <div class="overview-card">
-            <div class="overview-label">PASSWORD TOOLS</div>
-            <div class="overview-value">03</div>
-            <div class="overview-note">Powerful security tools</div>
+            <h3>Strong Passwords</h3>
+            <p>Create passwords that help keep your accounts safe.</p>
         </div>
-        """)
+        """, unsafe_allow_html=True)
 
     with col2:
-        st.html("""
+        st.markdown("""
         <div class="overview-card">
-            <div class="overview-label">SECURITY STATUS</div>
-            <div class="overview-value">Active</div>
-            <div class="overview-note">All tools are operational</div>
+            <h3>5 Tools</h3>
+            <p>Dedicated password security features</p>
         </div>
-        """)
+        """, unsafe_allow_html=True)
 
     with col3:
-        st.html("""
+        st.markdown("""
         <div class="overview-card">
-            <div class="overview-label">PROTECTION LEVEL</div>
-            <div class="overview-value">Enhanced</div>
-            <div class="overview-note">Built for stronger passwords</div>
+            <h3>100%</h3>
+            <p>Designed for simple and accessible use</p>
         </div>
-        """)
+        """, unsafe_allow_html=True)
 
-    # EXPLORE TOOLS
+    st.markdown("<br>", unsafe_allow_html=True)
 
     st.markdown(
-        '<div class="section-title">Explore Your Tools</div>',
+        '<div class="section-title">EXPLORE YOUR TOOLS</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
-        '<div class="section-subtitle">Choose a tool to get started.</div>',
+        '<p class="subtitle">Choose a tool to get started.</p>',
         unsafe_allow_html=True
     )
 
-    # FIRST ROW
-
-    col1, col2 = st.columns(2, gap="small")
+    col1, col2 = st.columns(2, gap="large")
 
     with col1:
-        st.html("""
-        <div class="tool-card">
-            <div class="tool-icon">🔐</div>
-            <div class="tool-title">Password Generator</div>
-            <div class="tool-description">
-                Create secure, random passwords with custom controls.
-            </div>
-        </div>
-        """)
 
-        if st.button("CREATE PASSWORD  →", key="dashboard_generator"):
-            navigate("Password Generator")
+        st.markdown("""
+        <div class="tool-card">
+            <h3>🔑 Password Generator</h3>
+            <p>
+                Generate strong, random passwords with custom
+                length and character options.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button(
+            "OPEN PASSWORD GENERATOR",
+            key="dashboard_generator",
+            use_container_width=True
+        ):
+            go_to_page("Password Generator")
+            st.rerun()
+
+        st.markdown("""
+        <div class="tool-card">
+            <h3>🛡️ Password Analyzer</h3>
+            <p>
+                Review password characteristics and understand
+                estimated strength.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button(
+            "OPEN PASSWORD ANALYZER",
+            key="dashboard_analyzer",
+            use_container_width=True
+        ):
+            go_to_page("Password Analyzer")
             st.rerun()
 
     with col2:
-        st.html("""
-        <div class="tool-card">
-            <div class="tool-icon">✦</div>
-            <div class="tool-title">Passphrase Studio</div>
-            <div class="tool-description">
-                Build memorable passphrases using randomly selected words.
-            </div>
-        </div>
-        """)
 
-        if st.button("BUILD PASSPHRASE  →", key="dashboard_passphrase"):
-            navigate("Passphrase Studio")
+        st.markdown("""
+        <div class="tool-card">
+            <h3>💬 Passphrase Studio</h3>
+            <p>
+                Create memorable passphrases using randomly
+                selected words.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if st.button(
+            "OPEN PASSPHRASE STUDIO",
+            key="dashboard_passphrase",
+            use_container_width=True
+        ):
+            go_to_page("Passphrase Studio")
             st.rerun()
 
-    # SECOND ROW
-
-    col1, col2 = st.columns(2, gap="small")
-
-    with col1:
-        st.html("""
+        st.markdown("""
         <div class="tool-card">
-            <div class="tool-icon">◆</div>
-            <div class="tool-title">Password Analyzer</div>
-            <div class="tool-description">
-                Review password characteristics and identify weaknesses.
-            </div>
+            <h3>⚙️ Security Center</h3>
+            <p>
+                Learn practical ways to protect your accounts
+                and improve online safety.
+            </p>
         </div>
-        """)
+        """, unsafe_allow_html=True)
 
-        if st.button("ANALYZE PASSWORD  →", key="dashboard_analyzer"):
-            navigate("Password Analyzer")
+        if st.button(
+            "OPEN SECURITY CENTER",
+            key="dashboard_security",
+            use_container_width=True
+        ):
+            go_to_page("Security Center")
             st.rerun()
-
-    with col2:
-        st.html("""
-        <div class="tool-card">
-            <div class="tool-icon">🛡️</div>
-            <div class="tool-title">Security Center</div>
-            <div class="tool-description">
-                Explore practical steps to protect your accounts.
-            </div>
-        </div>
-        """)
-
-        if st.button("EXPLORE SECURITY  →", key="dashboard_security"):
-            navigate("Security Center")
-            st.rerun()
-
-    st.html("""
-    <div class="footer">
-        SECUREPASS ELITE · BUILT FOR BETTER DIGITAL HABITS
-    </div>
-    """)
 
 
 # =====================================================
@@ -669,16 +764,21 @@ if st.session_state.page == "Dashboard":
 
 elif st.session_state.page == "Password Generator":
 
-    page_heading(
-        "🔑 Password Generator",
-        "Create strong, random and secure passwords."
+    st.markdown(
+        '<div class="section-title">PASSWORD GENERATOR</div>',
+        unsafe_allow_html=True
     )
+
+    st.markdown(
+        '<p class="subtitle">Create strong and unpredictable passwords.</p>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown("---")
 
     col1, col2 = st.columns(2)
 
     with col1:
-
-        st.markdown("### Password Configuration")
 
         length = st.slider(
             "Password Length",
@@ -692,71 +792,85 @@ elif st.session_state.page == "Password Generator":
             [1, 3, 5, 10]
         )
 
-        st.markdown("### Character Options")
+    with col2:
+
+        st.markdown("**Character Options**")
 
         use_upper = st.checkbox("Uppercase Letters (A-Z)", value=True)
         use_lower = st.checkbox("Lowercase Letters (a-z)", value=True)
         use_numbers = st.checkbox("Numbers (0-9)", value=True)
-        use_symbols = st.checkbox("Special Symbols (!@#$)", value=True)
+        use_symbols = st.checkbox("Symbols (!@#$...)", value=True)
+        exclude_similar = st.checkbox("Exclude Similar Characters", value=False)
 
-        exclude_similar = st.checkbox(
-            "Exclude Similar Characters (I, l, 1, O, 0)",
-            value=False
-        )
+    st.markdown("<br>", unsafe_allow_html=True)
 
-        if st.button("GENERATE PASSWORD", key="generate_password_button"):
+    if st.button(
+        "GENERATE SECURE PASSWORDS",
+        key="generate_passwords",
+        use_container_width=True
+    ):
 
-            passwords = []
+        passwords = []
 
-            for _ in range(count):
-                password = generate_password(
-                    length,
-                    use_upper,
-                    use_lower,
-                    use_numbers,
-                    use_symbols,
-                    exclude_similar
-                )
+        for _ in range(count):
 
-                if password:
-                    passwords.append(password)
-
-            if passwords:
-                st.session_state.generated_passwords = passwords
-            else:
-                st.error("Please select at least one character option.")
-
-    with col2:
-
-        st.markdown("### Generated Results")
-
-        if st.session_state.generated_passwords:
-
-            for index, password in enumerate(
-                st.session_state.generated_passwords,
-                start=1
-            ):
-                st.markdown(
-                    f"""
-                    <div class="result-box">
-                        <div class="result-label">PASSWORD {index}</div>
-                        <div class="result-value">{html.escape(password)}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
-            all_passwords = "\n".join(st.session_state.generated_passwords)
-
-            st.download_button(
-                "⬇️ DOWNLOAD PASSWORDS",
-                data=all_passwords,
-                file_name="securepass_passwords.txt",
-                mime="text/plain"
+            password = generate_password(
+                length,
+                use_upper,
+                use_lower,
+                use_numbers,
+                use_symbols,
+                exclude_similar
             )
 
+            if password:
+                passwords.append(password)
+
+        if not passwords:
+            st.error("Please select at least one character type.")
+
         else:
-            st.info("Your generated passwords will appear here.")
+            st.session_state.generated_passwords = passwords
+
+    if st.session_state.generated_passwords:
+
+        st.markdown("---")
+
+        st.markdown(
+            '<div class="section-title">GENERATED PASSWORDS</div>',
+            unsafe_allow_html=True
+        )
+
+        for index, password in enumerate(
+            st.session_state.generated_passwords,
+            start=1
+        ):
+
+            st.markdown(
+                f"""
+                <div class="result-box">
+                    <div style="color:#A9B2C3;font-size:11px;margin-bottom:8px;">
+                        PASSWORD {index}
+                    </div>
+                    <div style="font-size:18px;font-weight:700;">
+                        {html.escape(password)}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        password_text = "\n".join(
+            st.session_state.generated_passwords
+        )
+
+        st.download_button(
+            "⬇ DOWNLOAD PASSWORDS",
+            data=password_text,
+            file_name="securepass_passwords.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
 
 
 # =====================================================
@@ -765,29 +879,23 @@ elif st.session_state.page == "Password Generator":
 
 elif st.session_state.page == "Passphrase Studio":
 
-    page_heading(
-        "📝 Passphrase Studio",
-        "Create memorable passphrases using random words."
+    st.markdown(
+        '<div class="section-title">PASSPHRASE STUDIO</div>',
+        unsafe_allow_html=True
     )
 
-    word_list = [
-        "Ocean", "Mountain", "Silver", "Garden", "Sunshine",
-        "River", "Forest", "Crystal", "Thunder", "Rainbow",
-        "Galaxy", "Breeze", "Golden", "Shadow", "Planet",
-        "Diamond", "Sunset", "Meadow", "Winter", "Rocket",
-        "Velvet", "Falcon", "Candle", "Maple", "Castle",
-        "Willow", "Marble", "Comet", "Coral", "Lantern",
-        "Harbor", "Whisper", "Jasmine", "Cloud", "Phoenix",
-        "Aurora", "Copper", "Butterfly", "Island", "Cosmic"
-    ]
+    st.markdown(
+        '<p class="subtitle">Create memorable combinations of random words.</p>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown("---")
 
     col1, col2 = st.columns(2)
 
     with col1:
 
-        st.markdown("### Passphrase Settings")
-
-        word_count = st.slider(
+        number_of_words = st.slider(
             "Number of Words",
             min_value=3,
             max_value=8,
@@ -799,52 +907,63 @@ elif st.session_state.page == "Passphrase Studio":
             ["-", "_", ".", "@", " "]
         )
 
+    with col2:
+
         add_number = st.checkbox(
-            "Add a random 3-digit number",
+            "Add a random three-digit number",
             value=True
         )
 
-        if st.button("GENERATE PASSPHRASE", key="generate_passphrase_button"):
+        st.markdown("""
+        <div class="info-card">
+            <h4>Why use a passphrase?</h4>
+            <p>
+                A passphrase combines several words to create
+                something easier to remember while allowing
+                longer password combinations.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
-            selected_words = [
-                secrets.choice(word_list)
-                for _ in range(word_count)
-            ]
+    if st.button(
+        "GENERATE PASSPHRASE",
+        key="generate_passphrase",
+        use_container_width=True
+    ):
 
-            passphrase = separator.join(selected_words)
+        st.session_state.generated_passphrase = generate_passphrase(
+            number_of_words,
+            separator,
+            add_number
+        )
 
-            if add_number:
-                passphrase += separator + str(secrets.randbelow(900) + 100)
+    if st.session_state.generated_passphrase:
 
-            st.session_state.generated_passphrase = passphrase
+        st.markdown("---")
 
-    with col2:
+        st.markdown(
+            '<div class="section-title">YOUR PASSPHRASE</div>',
+            unsafe_allow_html=True
+        )
 
-        st.markdown("### Generated Passphrase")
-
-        if st.session_state.generated_passphrase:
-
-            st.markdown(
-                f"""
-                <div class="result-box">
-                    <div class="result-label">YOUR PASSPHRASE</div>
-                    <div class="result-value">
-                        {html.escape(st.session_state.generated_passphrase)}
-                    </div>
+        st.markdown(
+            f"""
+            <div class="result-box">
+                <div style="font-size:22px;font-weight:700;">
+                    {html.escape(st.session_state.generated_passphrase)}
                 </div>
-                """,
-                unsafe_allow_html=True
-            )
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-            st.download_button(
-                "⬇️ DOWNLOAD PASSPHRASE",
-                data=st.session_state.generated_passphrase,
-                file_name="securepass_passphrase.txt",
-                mime="text/plain"
-            )
-
-        else:
-            st.info("Your passphrase will appear here.")
+        st.download_button(
+            "⬇ DOWNLOAD PASSPHRASE",
+            data=st.session_state.generated_passphrase,
+            file_name="securepass_passphrase.txt",
+            mime="text/plain",
+            use_container_width=True
+        )
 
 
 # =====================================================
@@ -853,90 +972,99 @@ elif st.session_state.page == "Passphrase Studio":
 
 elif st.session_state.page == "Password Analyzer":
 
-    page_heading(
-        "🛡️ Password Analyzer",
-        "Evaluate password strength and identify weaknesses."
+    st.markdown(
+        '<div class="section-title">PASSWORD ANALYZER</div>',
+        unsafe_allow_html=True
     )
 
-    st.warning(
-        "For safety, avoid entering passwords that you currently "
-        "use for real accounts. This basic analyzer does not check "
-        "whether a password has appeared in known data breaches."
+    st.markdown(
+        '<p class="subtitle">Understand the characteristics of a password.</p>',
+        unsafe_allow_html=True
     )
 
-    password = st.text_input(
-        "Enter a sample password to analyze",
+    st.markdown("""
+    <div class="info-card">
+        <h4>🔒 Privacy Reminder</h4>
+        <p>
+            For safety, do not enter a real password that you currently
+            use. Test with a sample password instead.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    password_input = st.text_input(
+        "Enter a sample password",
         type="password",
         placeholder="Enter a sample password..."
     )
 
-    if st.button("ANALYZE PASSWORD", key="run_password_analysis"):
+    if st.button(
+        "ANALYZE PASSWORD",
+        key="analyze_password",
+        use_container_width=True
+    ):
 
-        if not password:
-            st.error("Please enter a password to analyze.")
+        if not password_input:
+            st.warning("Please enter a sample password.")
 
         else:
-
-            entropy = calculate_entropy(password)
-
-            checks = {
-                "At least 8 characters": len(password) >= 8,
-                "At least 12 characters": len(password) >= 12,
-                "Contains uppercase letters": bool(re.search(r"[A-Z]", password)),
-                "Contains lowercase letters": bool(re.search(r"[a-z]", password)),
-                "Contains numbers": bool(re.search(r"[0-9]", password)),
-                "Contains special symbols": bool(re.search(r"[^a-zA-Z0-9]", password))
-            }
-
-            passed = sum(checks.values())
-
-            if len(password) < 8:
-                strength = "Very Weak"
-            elif entropy < 40:
-                strength = "Weak"
-            elif entropy < 60:
-                strength = "Moderate"
-            elif entropy < 80:
-                strength = "Strong"
-            else:
-                strength = "Very Strong"
+            checks, entropy, strength = analyze_password(password_input)
 
             st.session_state.analysis_result = {
-                "strength": strength,
-                "entropy": entropy,
                 "checks": checks,
-                "passed": passed
+                "entropy": entropy,
+                "strength": strength
             }
 
     if st.session_state.analysis_result:
 
         result = st.session_state.analysis_result
 
-        st.markdown("### Analysis Results")
+        st.markdown("---")
 
-        col1, col2, col3 = st.columns(3)
+        st.markdown(
+            '<div class="section-title">ANALYSIS RESULTS</div>',
+            unsafe_allow_html=True
+        )
+
+        col1, col2 = st.columns(2)
 
         with col1:
-            st.metric("Password Strength", result["strength"])
+
+            st.markdown(f"""
+            <div class="overview-card">
+                <h3>{result["strength"]}</h3>
+                <p>Estimated Password Strength</p>
+            </div>
+            """, unsafe_allow_html=True)
 
         with col2:
-            st.metric("Estimated Entropy", f"{result['entropy']:.1f} bits")
 
-        with col3:
-            st.metric("Security Checks", f"{result['passed']}/6")
+            st.markdown(f"""
+            <div class="overview-card">
+                <h3>{result["entropy"]:.1f} bits</h3>
+                <p>Estimated Entropy</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-        st.markdown("### Security Checklist")
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown(
+            '<div class="section-title">SECURITY CHECKLIST</div>',
+            unsafe_allow_html=True
+        )
 
         for check, passed in result["checks"].items():
 
             if passed:
                 st.success(f"✓ {check}")
+
             else:
-                st.error(f"✗ {check}")
+                st.warning(f"✗ {check}")
 
         st.caption(
-            "Entropy is a rough estimate based on character variety "
-            "and password length. It does not guarantee real-world security."
+            "Note: This is an educational estimate, not a complete "
+            "security audit. It does not check breached-password databases."
         )
 
 
@@ -946,84 +1074,78 @@ elif st.session_state.page == "Password Analyzer":
 
 elif st.session_state.page == "Security Center":
 
-    page_heading(
-        "⚙️ Security Center",
-        "Learn essential practices to protect your digital identity."
+    st.markdown(
+        '<div class="section-title">SECURITY CENTER</div>',
+        unsafe_allow_html=True
     )
 
-    col1, col2 = st.columns(2)
+    st.markdown(
+        '<p class="subtitle">Simple habits that help protect your digital life.</p>',
+        unsafe_allow_html=True
+    )
 
-    with col1:
+    st.markdown("---")
 
-        st.markdown("""
-        <div class="info-card">
-            <h4>🔐 Use Strong Passwords</h4>
-            <p>
-                Create long passwords using a combination of
-                uppercase letters, lowercase letters, numbers
-                and special characters.
-            </p>
-        </div>
+    security_tips = [
+        (
+            "🔐 Use Unique Passwords",
+            "Avoid reusing the same password across multiple websites. "
+            "If one account is compromised, unique passwords help protect your other accounts."
+        ),
+        (
+            "🛡️ Enable Two-Factor Authentication",
+            "Add another layer of protection to important accounts using "
+            "an authenticator app or another supported verification method."
+        ),
+        (
+            "🔄 Update Your Passwords When Needed",
+            "Change passwords immediately if you suspect an account has "
+            "been compromised or exposed."
+        ),
+        (
+            "🚫 Avoid Sharing Passwords",
+            "Never share passwords through public messages, emails or "
+            "untrusted websites."
+        ),
+        (
+            "🔎 Watch Out for Phishing",
+            "Check website addresses and sender details before clicking "
+            "links or entering account information."
+        ),
+        (
+            "🔑 Consider a Password Manager",
+            "A reputable password manager can help create and store "
+            "unique passwords for different accounts."
+        )
+    ]
 
-        <div class="info-card">
-            <h4>🔄 Avoid Password Reuse</h4>
-            <p>
-                Use a different password for every important
-                online account. Reusing passwords increases
-                the risk of multiple accounts being compromised.
-            </p>
-        </div>
+    col1, col2 = st.columns(2, gap="large")
 
-        <div class="info-card">
-            <h4>🛡️ Enable Two-Factor Authentication</h4>
-            <p>
-                Add another layer of protection to your accounts
-                using an authenticator app, security key or
-                another supported verification method.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+    for index, (title, description) in enumerate(security_tips):
 
-    with col2:
+        target_col = col1 if index % 2 == 0 else col2
 
-        st.markdown("""
-        <div class="info-card">
-            <h4>🔑 Use a Password Manager</h4>
-            <p>
-                A reputable password manager can help you
-                generate, store and manage unique passwords
-                securely.
-            </p>
-        </div>
+        with target_col:
 
-        <div class="info-card">
-            <h4>⚠️ Watch Out for Phishing</h4>
-            <p>
-                Be careful with suspicious links, unexpected
-                attachments and websites requesting your
-                login information.
-            </p>
-        </div>
-
-        <div class="info-card">
-            <h4>🔍 Review Account Activity</h4>
-            <p>
-                Regularly check your account login activity
-                and security notifications. Change your
-                password if you suspect unauthorized access.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+            st.markdown(
+                f"""
+                <div class="info-card">
+                    <h4>{title}</h4>
+                    <p>{description}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 
 # =====================================================
-# FOOTER FOR OTHER PAGES
+# FOOTER
 # =====================================================
 
-if st.session_state.page != "Dashboard":
-
-    st.markdown("""
-    <div class="footer">
-        SECUREPASS ELITE · YOUR SECURITY MATTERS
-    </div>
-    """, unsafe_allow_html=True)
+st.markdown("""
+<div class="custom-footer">
+    SECUREPASS ELITE · YOUR SECURITY. YOUR CONTROL.
+    <br><br>
+    Designed to make password security simple.
+</div>
+""", unsafe_allow_html=True)
